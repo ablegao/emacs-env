@@ -1,3 +1,4 @@
+(global-linum-mode t)
 
 ; package mange 
 (require 'package)
@@ -54,6 +55,11 @@
 
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
+;;;; neo tree auto resize  
+;(add-hook 'neo-change-root-hook
+;          (lambda () (neo-buffer--with-resizable-window
+;                 (let ((fit-window-to-buffer-horizontally t))
+;                   (fit-window-to-buffer)))))
 
 
 ; mouse click superd
