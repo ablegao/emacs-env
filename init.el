@@ -27,6 +27,7 @@
 (require 'go-autocomplete)
 (ac-config-default)
 
+
 (defun my-go-mode-hook ()
  ; Use goimports instead of go-fmt
   (setq gofmt-command "goimports")
@@ -73,5 +74,44 @@
 ; auto save 
 
 
-(setq backup-by-copying t)
+(setq backup-by-copying nil)
 (setq make-backup-files nil)
+;(put 'upcase-region 'disabled nil)
+
+
+; color-theme 
+
+(require 'color-theme)
+(color-theme-initialize)  
+
+; git
+
+(require 'git)
+
+
+; speedbar
+
+
+
+;(speedbar-frame-mode)
+;(speedbar-add-supported-extension ".go")
+;(speedbar-add-supported-extension ".py")
+;(global-set-key [f5] 'speedbar)
+
+
+
+; python IDE
+
+;; elpy 
+;;(add-to-list 'load-path "~/.emacs.d/elpa/yasnippet-20170226.1638")
+;(require 'yasnippet)
+;(require 'yasnippet)
+;(elpy-enable)
+
+(when (require 'elpy nil t )
+  ;;(elpy-rpc-backend "jedi")
+  (delete 'elpy-module-yasnippet elpy-modules)
+  (setq elpy-rpc-backend "jedi")
+  (elpy-enable)
+  (pyvenv-activate "~/env/python_dj")
+  )
