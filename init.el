@@ -76,7 +76,6 @@
 
 (setq backup-by-copying nil)
 (setq make-backup-files nil)
-;(put 'upcase-region 'disabled nil)
 
 
 ; color-theme 
@@ -115,3 +114,19 @@
   (elpy-enable)
   (pyvenv-activate "~/env/python_dj")
   )
+(put 'upcase-region 'disabled nil)
+
+
+
+
+; 平滑滚动
+(defun smooth-scroll (increment)
+  (scroll-up increment) (sit-for 0.05)
+  (scroll-up increment) (sit-for 0.02)
+  (scroll-up increment) (sit-for 0.02)
+  (scroll-up increment) (sit-for 0.05)
+  (scroll-up increment) (sit-for 0.06)
+  (scroll-up increment))
+
+(global-set-key [(mouse-5)] '(lambda () (interactive) (smooth-scroll 1)))
+(global-set-key [(mouse-4)] '(lambda () (interactive) (smooth-scroll -1)))
