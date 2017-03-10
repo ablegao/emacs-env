@@ -130,3 +130,19 @@
 
 (global-set-key [(mouse-5)] '(lambda () (interactive) (smooth-scroll 1)))
 (global-set-key [(mouse-4)] '(lambda () (interactive) (smooth-scroll -1)))
+
+
+
+
+; template 
+
+
+(auto-insert-mode)
+(setq auto-insert-directory "~/.emacs.d/tpl/")
+(setq auto-insert-query nil) 
+(setq auto-insert-alist
+      (append '(
+            (python-mode . "tpl.py")
+	    (go-mode . "tpl.go")
+            )
+           auto-insert-alist))
