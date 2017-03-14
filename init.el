@@ -157,7 +157,6 @@
 ; all the icon 
 
 (require 'all-the-icons)
-i(require 'all-the-icons)
   ;;(insert (all-the-icons-icon-for-file "foo.js"))
   (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
   (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
