@@ -54,9 +54,11 @@
 
 ; neo tree 
 
+
 (require 'neotree)
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+;;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (global-set-key [f8] 'neotree-toggle)
+
 ;;;; neo tree auto resize  
 ;(add-hook 'neo-change-root-hook
 ;          (lambda () (neo-buffer--with-resizable-window
@@ -155,11 +157,9 @@
 ; all the icon 
 
 (require 'all-the-icons)
+i(require 'all-the-icons)
   ;;(insert (all-the-icons-icon-for-file "foo.js"))
   (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
   (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
   (all-the-icons-wicon   "tornado")      ;; Weather Icon for tornado
-(propertize (all-the-icons-octicon "package")
-            'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
-            'display '(raise -0.1))
-
+;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
