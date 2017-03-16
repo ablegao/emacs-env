@@ -52,12 +52,20 @@
  (add-hook 'go-mode-hook 'auto-complete-for-go)
 
 
+ (require 'go-eldoc)
+    (add-hook 'go-mode-hook 'go-eldoc-setup)
+
+
+
 ; neo tree 
 
 
-(require 'neotree)
-;;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-(global-set-key [f8] 'neotree-toggle)
+(when (require 'neotree)
+  ;;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (global-set-key [f8] 'neotree-toggle)
+  (setq neo-window-width 45)
+  (setq neo-window-fixed-size nil)
+)
 
 ;;;; neo tree auto resize  
 ;(add-hook 'neo-change-root-hook
@@ -152,13 +160,23 @@
 
 
 
+; undo-tree 撤销树 
+(when (require 'undo-tree)
+  (global-undo-tree-mode)
+  ;do some thing
+  )
 
 
 ; all the icon 
 
 (require 'all-the-icons)
-  ;;(insert (all-the-icons-icon-for-file "foo.js"))
+  (insert (all-the-icons-icon-for-file "foo.js"))
   (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
   (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
   (all-the-icons-wicon   "tornado")      ;; Weather Icon for tornado
 ;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+
+(propertize (all-the-icons-octicon "package")
+	                'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
+			            'display '(raise -1.1))
