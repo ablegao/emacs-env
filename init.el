@@ -184,3 +184,10 @@
 (propertize (all-the-icons-octicon "package")
 	                'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
 			            'display '(raise -1.1))
+
+
+
+; powerline
+(when (require 'powerline)
+  (powerline-vim-theme)
+)
