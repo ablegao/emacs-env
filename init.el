@@ -1,11 +1,14 @@
 (global-linum-mode t)
 
 ; package mange 
-(require 'package)
-(add-to-list 'package-archives
-	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
-; pacagek auto import 
-(package-initialize)
+(when (require 'package)
+  (add-to-list 'package-archives
+	       '("melpa" . "http://melpa.milkbox.net/packages/")
+	       t)
+  
+    (package-initialize)
+    
+)
 
 
 (defun set-exec-path-from-shell-PATH ()
@@ -165,6 +168,7 @@
   (global-undo-tree-mode)
   ;do some thing
   )
+
 
 
 ; all the icon 
