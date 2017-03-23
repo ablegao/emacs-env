@@ -10,5 +10,16 @@ Only run emacs 24.x
 
 ## upgrade 
 
-	golang superd
-	python superd
+	golang support
+	python support
+	
+
+
+###python 
+
+	pip install rope
+	pip install jedi
+	pip install flake8
+	pip install importmagic
+	pip install autopep8
+	pip install yap
