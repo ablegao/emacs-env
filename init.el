@@ -1,5 +1,5 @@
 (global-linum-mode t)
-
+(setq default-buffer-file-coding-system 'utf-8-unix)
 ; package mange 
 (when (require 'package)
   (add-to-list 'package-archives
@@ -70,12 +70,13 @@
 
 ; neo tree 
 
-
+(setq neo-smart-open t)
 (when (require 'neotree)
   ;;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   (global-set-key [f8] 'neotree-toggle)
-  (setq neo-window-width 45)
+  ;(setq neo-window-width 45)
   (setq neo-window-fixed-size nil)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 )
 
 ;;;; neo tree auto resize  
@@ -100,15 +101,10 @@
 (setq make-backup-files nil)
 
 
-; color-theme 
-
-(require 'color-theme)
-(color-theme-initialize)  
-
 ; git
 
 (require 'git)
-
+;(git-init)
 
 ; speedbar
 
@@ -145,16 +141,16 @@
 
 
 ; 平滑滚动
-(defun smooth-scroll (increment)
-  (scroll-up increment) (sit-for 0.05)
-  (scroll-up increment) (sit-for 0.02)
-  (scroll-up increment) (sit-for 0.02)
-  (scroll-up increment) (sit-for 0.05)
-  (scroll-up increment) (sit-for 0.06)
-  (scroll-up increment))
-
-(global-set-key [(mouse-5)] '(lambda () (interactive) (smooth-scroll 1)))
-(global-set-key [(mouse-4)] '(lambda () (interactive) (smooth-scroll -1)))
+;defun smooth-scroll (increment)
+;  (scroll-up increment) (sit-for 0.05)
+;  (scroll-up increment) (sit-for 0.02)
+;  (scroll-up increment) (sit-for 0.02)
+;  (scroll-up increment) (sit-for 0.05)
+;  (scroll-up increment) (sit-for 0.06)
+;  (scroll-up increment))
+;
+;(global-set-key [(mouse-5)] '(lambda () (interactive) (smooth-scroll 1)))
+;(global-set-key [(mouse-4)] '(lambda () (interactive) (smooth-scroll -1)))
 
 
 
@@ -183,23 +179,40 @@
 
 
 
-; all the icon 
-
-(require 'all-the-icons)
-  (insert (all-the-icons-icon-for-file "foo.js"))
-  (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
-  (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
-  (all-the-icons-wicon   "tornado")      ;; Weather Icon for tornado
-;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-
-
-(propertize (all-the-icons-octicon "package")
-	                'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
-			            'display '(raise -1.1))
-
-
+; color-theme 
+(when (display-graphic-p)
+    
+    (require 'color-theme)
+    (color-theme-initialize)
+    (color-theme-gray30)
+    ; all the icon 
+    
+    (require 'all-the-icons)
+      (insert (all-the-icons-icon-for-file "foo.js"))
+      (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
+      (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
+      (all-the-icons-wicon   "tornado")      ;; Weather Icon for tornado
+    ;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+    
+    (propertize (all-the-icons-octicon "package")
+    	                'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
+    			            'display '(raise -1.1))
+)
 
 ; powerline
 (when (require 'powerline)
   (powerline-vim-theme)
 )
+
+
+; shell 
+(setq shell-file-name "/bin/bash") 
+(global-set-key [f9] 'shell)
+(global-set-key [f7] 'term)
+(put 'set-goal-column 'disabled nil)
+
+
+
+
+; scala 
+(require 'scala-mode)
