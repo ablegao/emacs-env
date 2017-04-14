@@ -10,7 +10,6 @@
     
 )
 
-
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell (replace-regexp-in-string
                           "[ \t\n]*$"
@@ -21,6 +20,9 @@
     (setq exec-path (split-string path-from-shell path-separator))))
 
 (when window-system (set-exec-path-from-shell-PATH))
+
+(require 'yasnippet)
+
 
 ; golang
 ;(with-eval-after-load 'go-mode
@@ -178,27 +180,6 @@
   )
 
 
-
-; color-theme 
-(when (display-graphic-p)
-    
-    (require 'color-theme)
-    (color-theme-initialize)
-    (color-theme-gray30)
-    ; all the icon 
-    
-    (require 'all-the-icons)
-      (insert (all-the-icons-icon-for-file "foo.js"))
-      (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
-      (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
-      (all-the-icons-wicon   "tornado")      ;; Weather Icon for tornado
-    ;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-    
-    (propertize (all-the-icons-octicon "package")
-    	                'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
-    			            'display '(raise -1.1))
-)
-
 ; powerline
 (when (require 'powerline)
   (powerline-vim-theme)
@@ -212,7 +193,43 @@
 (put 'set-goal-column 'disabled nil)
 
 
-
-
 ; scala 
+
+(require 'protocols)
+(require 'ensime)
+(setq ensime-startup-snapshot-notification nil)
+(setq ensime-startup-notification nil)
+
 (require 'scala-mode)
+(require 'sbt-mode)
+(setq ensime-sbt-command "/opt/sbt/bin/sbt"
+	sbt:program-name "/opt/sbt/bin/sbt")
+
+
+; Run GUI Only 
+(when (display-graphic-p)
+ 
+ ;all the icon
+ (require 'all-the-icons)
+   (insert (all-the-icons-icon-for-file "foo.js"))
+   (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
+   (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
+   (all-the-icons-wicon   "tornado")      ;; Weather Icon for tornado
+ ;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+ 
+ (propertize (all-the-icons-octicon "package")
+    	                'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
+    			            'display '(raise -1.1))
+)
+
+(require 'projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+(global-set-key [f5] 'projectile-find-file)
+
+
+
+;; load theme
+
+(load-theme 'less t)
+;;(load-theme 'solarized t)
