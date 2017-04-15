@@ -226,10 +226,6 @@
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 (global-set-key [f5] 'projectile-find-file)
-
-
-
-;; load theme
-
-(load-theme 'less t)
-;;(load-theme 'solarized t)
+(load-theme 'badger t)
+;(load-theme 'zenburn t)
+;(load-theme 'bubbleberry t)
