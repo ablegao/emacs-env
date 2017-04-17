@@ -23,15 +23,35 @@
 
 
 
+					; speedbar
+
+;(require 'speedbar)
+(require 'sr-speedbar)
+;(setq 'sr-speedbar-right-side nil)
+(setq sr-speedbar-right-side nil)
+(setq sr-speedbar-skip-other-window-p nil)
+(setq sr-speedbar-auto-refresh t)
+(setq sr-speedbar-max-width 20)
+;; regular speedbar config
+(setq speedbar-show-unknown-files t)
+(setq speedbar-verbosity-level 0)
+
+
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 (global-set-key [f5] 'projectile-find-file)
 
 
+;(require 'projectile-speedbar)
+;(setq projectitle-speedbar-open-current-buffer-in-tree nil)
+;(speedbar-frame-mode)
+(speedbar-add-supported-extension ".go")
+(speedbar-add-supported-extension ".py")
+(global-set-key [f6] 'speedbar)
+
+
 ; neo tree 
-
-
 (when (require 'neotree)
   ;;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   ;;(global-set-key [f8] 'neotree-toggle)
@@ -49,19 +69,6 @@
 
 
 (setq projectile-switch-project-action 'neotree-projectile-action)
-(defun neotree-project-dir ()
-  "Open NeoTree using the git root."
-  (interactive)
-  (let ((project-dir (ffip-project-root))
-	(file-name (buffer-file-name)))
-    (if project-dir
-	(progn
-	  (neotree-dir project-dir)
-	  (neotree-find file-name))
-      (message "Could not find git project root."))))
-
-;;(define-key map (kbd "C-c C-p") 'neotree-project-dir)
-
 
 (defun neotree-project-dir ()
   "Open NeoTree using the git root."
@@ -76,7 +83,6 @@
 	      (neotree-find file-name)))
               (message "Could not find git project root."))))
 (global-set-key [f8] 'neotree-project-dir)
-
 
 (require 'yasnippet)
 
@@ -146,16 +152,6 @@
 
 (require 'git)
 ;(git-init)
-
-; speedbar
-
-
-
-;(speedbar-frame-mode)
-;(speedbar-add-supported-extension ".go")
-;(speedbar-add-supported-extension ".py")
-;(global-set-key [f5] 'speedbar)
-
 
 ; python IDE
 
