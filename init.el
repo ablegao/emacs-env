@@ -21,6 +21,63 @@
 
 (when window-system (set-exec-path-from-shell-PATH))
 
+
+
+(require 'projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+(global-set-key [f5] 'projectile-find-file)
+
+
+; neo tree 
+
+
+(when (require 'neotree)
+  ;;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  ;;(global-set-key [f8] 'neotree-toggle)
+  ;(setq neo-window-width 45)
+  (setq neo-window-fixed-size nil)
+  ;(setq neo-smart-open t)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+)
+
+;;;; neo tree auto resize  
+;(add-hook 'neo-change-root-hook
+;          (lambda () (neo-buffer--with-resizable-window
+;                 (let ((fit-window-to-buffer-horizontally t))
+;                   (fit-window-to-buffer)))))
+
+
+(setq projectile-switch-project-action 'neotree-projectile-action)
+(defun neotree-project-dir ()
+  "Open NeoTree using the git root."
+  (interactive)
+  (let ((project-dir (ffip-project-root))
+	(file-name (buffer-file-name)))
+    (if project-dir
+	(progn
+	  (neotree-dir project-dir)
+	  (neotree-find file-name))
+      (message "Could not find git project root."))))
+
+;;(define-key map (kbd "C-c C-p") 'neotree-project-dir)
+
+
+(defun neotree-project-dir ()
+  "Open NeoTree using the git root."
+  (interactive)
+  (let ((project-dir (projectile-project-root))
+	(file-name (buffer-file-name)))
+    (neotree-toggle)
+    (if project-dir
+	(if (neo-global--window-exists-p)
+	    (progn
+	      (neotree-dir project-dir)
+	      (neotree-find file-name)))
+              (message "Could not find git project root."))))
+(global-set-key [f8] 'neotree-project-dir)
+
+
 (require 'yasnippet)
 
 
@@ -68,24 +125,6 @@
  (require 'go-eldoc)
     (add-hook 'go-mode-hook 'go-eldoc-setup)
 
-
-
-; neo tree 
-
-(setq neo-smart-open t)
-(when (require 'neotree)
-  ;;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  (global-set-key [f8] 'neotree-toggle)
-  ;(setq neo-window-width 45)
-  (setq neo-window-fixed-size nil)
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-)
-
-;;;; neo tree auto resize  
-;(add-hook 'neo-change-root-hook
-;          (lambda () (neo-buffer--with-resizable-window
-;                 (let ((fit-window-to-buffer-horizontally t))
-;                   (fit-window-to-buffer)))))
 
 
 ; mouse click superd
@@ -222,10 +261,7 @@
     			            'display '(raise -1.1))
 )
 
-(require 'projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-(global-set-key [f5] 'projectile-find-file)
-(load-theme 'badger t)
-;(load-theme 'zenburn t)
+
+;(load-theme 'badger t)
+(load-theme 'zenburn t)
 ;(load-theme 'bubbleberry t)
