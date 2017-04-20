@@ -24,3 +24,7 @@ Only run emacs 24.x
 	pip install autopep8
 	pip install yap
 	pip install yapf
+
+
+## pandoc
+apt install texlive-xetex pandoc

@@ -1,5 +1,5 @@
 (global-linum-mode t)
-(setq default-buffer-file-coding-system 'utf-8-unix)
+(setq default-buffer-file-coding-system 'utf-8)
 ; package mange 
 (when (require 'package)
   (add-to-list 'package-archives
@@ -21,41 +21,29 @@
 
 (when window-system (set-exec-path-from-shell-PATH))
 
-
-
-					; speedbar
-
-;(require 'speedbar)
-(require 'sr-speedbar)
-;(setq 'sr-speedbar-right-side nil)
-(setq sr-speedbar-right-side nil)
-(setq sr-speedbar-skip-other-window-p nil)
-(setq sr-speedbar-auto-refresh t)
-(setq sr-speedbar-max-width 20)
-;; regular speedbar config
-(setq speedbar-show-unknown-files t)
-(setq speedbar-verbosity-level 0)
-
-
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 (global-set-key [f5] 'projectile-find-file)
 
 
-;(require 'projectile-speedbar)
-;(setq projectitle-speedbar-open-current-buffer-in-tree nil)
+(require 'projectile-speedbar)
+
+(setq projectitle-speedbar-open-current-buffer-in-tree nil)
+(setq sr-speedbar-right-side nil)
 ;(speedbar-frame-mode)
 (speedbar-add-supported-extension ".go")
 (speedbar-add-supported-extension ".py")
-(global-set-key [f6] 'speedbar)
+					;(global-set-key [f6] 'speedbar-toggle)
+					;(global-set-key [f6] 'sr-speedbar-toggle)
+(global-set-key [f9] 'projectile-speedbar-toggle)
 
 
 ; neo tree 
 (when (require 'neotree)
   ;;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   ;;(global-set-key [f8] 'neotree-toggle)
-  ;(setq neo-window-width 45)
+  (setq neo-window-width 45)
   (setq neo-window-fixed-size nil)
   ;(setq neo-smart-open t)
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -135,10 +123,10 @@
 
 ; mouse click superd
 
-(require 'mouse)
+;(require 'mouse)
 (xterm-mouse-mode t)
-(defun track-mouse (e)) 
-(setq mouse-sel-mode t)
+;(defun track-mouse (e)) 
+;(setq mouse-sel-mode t)
 
 
 ; auto save 
@@ -223,7 +211,7 @@
 
 ; shell 
 (setq shell-file-name "/bin/bash") 
-(global-set-key [f9] 'shell)
+(global-set-key [f6] 'shell)
 (global-set-key [f7] 'term)
 (put 'set-goal-column 'disabled nil)
 
@@ -255,12 +243,53 @@
 			'display '(raise -1.1))
 
 	
- 
+(load-theme 'zenburn t) 
 )
 
-;;; theme 
-;(load-theme 'badger t)
-;(load-theme 'zenburn t)
-					;(load-theme 'bubbleberry t)
 
 
+
+
+;;自动格式化代码
+(dolist (command '(yank yank-pop))
+(eval
+`(defadvice ,command (after indent-region activate)
+(and (not current-prefix-arg)
+(member major-mode
+'(emacs-lisp-mode
+lisp-mode
+clojure-mode
+scheme-mode
+haskell-mode
+ruby-mode
+rspec-mode
+python-mode
+c-mode
+c++-mode
+objc-mode
+latex-mode
+js-mode
+plain-tex-mode))
+(let ((mark-even-if-inactive transient-mark-mode))
+(indent-region (region-beginning) (region-end) nil))))))
+
+
+
+
+(require 'markdown-mode)
+(require 'pandoc-mode)
+(add-hook 'markdown-mode-hook 'pandoc-mode)
+(add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
+;(pandoc--format-list-options 'mainfont "Noto Sans CJK TC")
+;(setq markdown-command "pandoc -f markdown  -t latex --latex-engine=xelatex -V mainfont=\"Noto Sans CJK TC\"")
+(require 'w3m)
+(setq w3m-default-display-inline-images t)
+;重定向C-c C-c m 为w3m 预览
+(define-key markdown-mode-map (kbd "\C-c c")
+  (lambda ()
+    (interactive)
+    (setq html-file-name (concat (file-name-sans-extension (buffer-file-name)) ".html"))
+    (markdown-export html-file-name)
+    (if (one-window-p) (split-window))
+    (other-window 1)
+    (w3m-find-file html-file-name)))
