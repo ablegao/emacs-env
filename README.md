@@ -80,13 +80,13 @@ apt install texlive-xetex pandoc
 ## golang
 
     
-    -x f 文件测试
-    -x t 单元测试 
-    -x p 执行目录下所有测试
-    -x b 压力测试
-    -x x 执行
+    C-x f 文件测试
+    C-x t 单元测试 
+    C-x p 执行目录下所有测试
+    C-x b 压力测试
+    C-x x 执行
     
-    -c c compile编译
+    C-c c compile编译
 
 ## dot shell 
 
