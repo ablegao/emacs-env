@@ -105,6 +105,7 @@
   (define-key go-mode-map (kbd "C-x p") 'go-test-current-project)
   (define-key go-mode-map (kbd "C-x b") 'go-test-current-benchmark)
   (define-key go-mode-map (kbd "C-x x") 'go-run)
+  (define-key go-mode-map (kbd "C-c c") 'compile)
   )
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
