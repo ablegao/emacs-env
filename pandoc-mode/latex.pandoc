@@ -45,7 +45,8 @@
  (reference-odt)
  (reference-docx)
  (standalone . t)
- (template)
+ (template . "~/.emacs.d/pandoc-mode/templates/pm-template.latex")
+ 
  (variable
   ("mainfont" . "Noto Sans Mono CJK SC Regular"))
  (dpi)
