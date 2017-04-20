@@ -242,22 +242,25 @@
 
 
 ; Run GUI Only 
-(when (display-graphic-p)
- 
- ;all the icon
- (require 'all-the-icons)
-   (insert (all-the-icons-icon-for-file "foo.js"))
-   (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
-   (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
-   (all-the-icons-wicon   "tornado")      ;; Weather Icon for tornado
- ;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
- 
- (propertize (all-the-icons-octicon "package")
+(when  (display-graphic-p)
+  (require 'all-the-icons)
+  (insert (all-the-icons-icon-for-file "foo.js"))
+  (all-the-icons-octicon "file-binary")  ;; GitHub Octicon for Binary File
+  (all-the-icons-faicon  "cogs")         ;; FontAwesome icon for cogs
+  (all-the-icons-wicon   "tornado")      ;; Weather Icon for tornado
+;(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+  (propertize (all-the-icons-octicon "package")
     	                'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
-    			            'display '(raise -1.1))
+			'display '(raise -1.1))
+
+	
+ 
 )
 
-
+;;; theme 
 ;(load-theme 'badger t)
-(load-theme 'zenburn t)
-;(load-theme 'bubbleberry t)
+;(load-theme 'zenburn t)
+					;(load-theme 'bubbleberry t)
+
+
