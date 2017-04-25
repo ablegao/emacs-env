@@ -24,13 +24,14 @@
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-enable-caching t)
+(setq projectile-use-git-grep 1)
 (global-set-key [f5] 'projectile-find-file)
 
 
 (require 'projectile-speedbar)
 
 (setq projectitle-speedbar-open-current-buffer-in-tree nil)
-(setq sr-speedbar-right-side nil)
+(setq sr-speedbar-right-side t)
 ;(speedbar-frame-mode)
 (speedbar-add-supported-extension ".go")
 (speedbar-add-supported-extension ".py")
@@ -45,7 +46,8 @@
   ;;(global-set-key [f8] 'neotree-toggle)
   (setq neo-window-width 45)
   (setq neo-window-fixed-size nil)
-  ;(setq neo-smart-open t)
+  (setq neo-vc-integration  '(face char))
+  (setq neo-smart-open t)
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 )
 
