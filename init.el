@@ -9,6 +9,8 @@
     (package-initialize)
     
 )
+(setq inhibit-startup-message t)
+(setq gnus-inhibit-startup-message t)
 
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell (replace-regexp-in-string
