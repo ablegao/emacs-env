@@ -298,3 +298,34 @@ plain-tex-mode))
     (if (one-window-p) (split-window))
     (other-window 1)
     (w3m-find-file html-file-name)))
+
+
+
+(tabbar-mode 1)
+(global-set-key [(meta j)] 'tabbar-forward)
+(global-set-key [(meta k)] 'tabbar-backward)
+					; close default tabs，and move all files into one group
+(setq tabbar-buffer-list-function
+      (lambda ()
+        (remove-if
+	 (lambda(buffer)
+	   (find (aref (buffer-name buffer) 0) " *"))
+	 (buffer-list))))
+(setq tabbar-buffer-groups-function
+      (lambda()(list "All")))
+(set-face-attribute 'tabbar-button nil)
+
+;;set tabbar's backgroud color
+;(set-face-attribute 'tabbar-default nil
+;                    :background "gray"
+;                    :foreground "gray30")
+;(set-face-attribute 'tabbar-selected nil
+;                    :inherit 'tabbar-default
+;                    :background "gray"
+;                    :box '(:line-width 3 :color "DarkGoldenrod") )
+;(set-face-attribute 'tabbar-unselected nil
+;                    :inherit 'tabbar-default
+;                    :box '(:line-width 3 :color "gray"))
+;
+;; USEFUL: set tabbar's separator gap
+(custom-set-variables '(tabbar-separator (quote (1.5))))
