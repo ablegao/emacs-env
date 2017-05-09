@@ -1,4 +1,6 @@
 (global-linum-mode t)
+(global-set-key  (kbd "C-c C-g")  'goto-line)
+
 (setq default-buffer-file-coding-system 'utf-8)
 ; package mange 
 (when (require 'package)
@@ -11,17 +13,21 @@
 )
 (setq inhibit-startup-message t)
 (setq gnus-inhibit-startup-message t)
+					
+;(when (memq window-system '(mac ns x))
+;  (exec-path-from-shell-initialize))
+;
+;(let ((path (shell-command-to-string ". ~/.bashrc; echo -n $PATH")))
+;  (setenv "PATH" path)
+;  (setq exec-path 
+;        (append
+;         (split-string-and-unquote path ":")
+;         exec-path)))
+					;
 
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (replace-regexp-in-string
-                          "[ \t\n]*$"
-                          ""
-                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq eshell-path-env path-from-shell) ; for eshell users
-    (setq exec-path (split-string path-from-shell path-separator))))
+(setq shell-file-name "bash")
+(setq shell-command-switch "-ic")
 
-(when window-system (set-exec-path-from-shell-PATH))
 
 (require 'projectile)
 (projectile-global-mode)
@@ -112,6 +118,8 @@
   (define-key go-mode-map (kbd "C-c c") 'compile)
   )
 
+
+
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
 
@@ -130,8 +138,8 @@
 
 ;(require 'mouse)
 (xterm-mouse-mode t)
-;(defun track-mouse (e)) 
-;(setq mouse-sel-mode t)
+(defun track-mouse (e)) 
+(setq mouse-sel-mode t)
 
 
 ; auto save 
@@ -184,7 +192,6 @@
 
 
 
-
 ; template 
 
 
@@ -215,7 +222,7 @@
 
 
 ; shell 
-(setq shell-file-name "/bin/bash") 
+;(setq shell-file-name "/bin/bash") 
 (global-set-key [f6] 'shell)
 (global-set-key [f7] 'term)
 (put 'set-goal-column 'disabled nil)
@@ -248,9 +255,14 @@
 			'display '(raise -1.1))
 
 	
-(load-theme 'zenburn t) 
+;(load-theme 'zenburn t) 
 )
-
+(if (display-graphic-p)
+    (load-theme 'zenburn t)
+  (load-theme 'wheatgrass t)  ;termail 下的主题
+  (scroll-bar-mode -1) ;termail下用来启动windows 尺寸缩放
+  
+  ) 
 
 
 
