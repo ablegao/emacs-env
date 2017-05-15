@@ -1,5 +1,9 @@
 (global-linum-mode t)
 (global-set-key  (kbd "C-c C-g")  'goto-line)
+;(global-set-key [mouse-1] 'dired-find-file)
+
+					;(define-key dired-mode-map [mouse-1] 'dired-find-file)
+
 
 (setq default-buffer-file-coding-system 'utf-8)
 ; package mange 
@@ -29,23 +33,6 @@
 (setq shell-command-switch "-ic")
 
 
-(require 'projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-(setq projectile-use-git-grep 1)
-(global-set-key [f5] 'projectile-find-file)
-
-
-(require 'projectile-speedbar)
-
-(setq projectitle-speedbar-open-current-buffer-in-tree nil)
-(setq sr-speedbar-right-side t)
-;(speedbar-frame-mode)
-(speedbar-add-supported-extension ".go")
-(speedbar-add-supported-extension ".py")
-					;(global-set-key [f6] 'speedbar-toggle)
-					;(global-set-key [f6] 'sr-speedbar-toggle)
-(global-set-key [f9] 'projectile-speedbar-toggle)
 
 
 ; neo tree 
@@ -94,42 +81,61 @@
 (ac-config-default)
 
 
-(defun my-go-mode-hook ()
- ; Use goimports instead of go-fmt
-  (setq gofmt-command "goimports")
+(add-hook
+ 'go-mode-hook
+ '(lambda ()
+    ;; gocode
+    (auto-complete-mode 1)
+    (setq ac-sources '(ac-source-go))
+    ;; Imenu & Speedbar
+    (setq imenu-generic-expression
+	  '(("type" "^type *\\([^ \t\n\r\f]*\\)" 1)
+	    ("func" "^func *\\(.*\\) {" 1)))
+    (imenu-add-to-menubar "Index")
+    ;; Outline mode
+    (make-local-variable 'outline-regexp)
+    (setq outline-regexp "//\\.\\|//[^\r\n\f][^\r\n\f]\\|pack\\|func\\|impo\\|cons\\|var.\\|type\\|\t\t*....")
+    (outline-minor-mode 1)
+    (local-set-key "\M-a" 'outline-previous-visible-heading)
+    (local-set-key "\M-e" 'outline-next-visible-heading)
+    ;; Menu bar
+    (require 'easymenu)
+    (defconst go-hooked-menu
+      '("Go tools"
+	["Go run buffer" go t]
+	["Go reformat buffer" go-fmt-buffer t]
+	["Go check buffer" go-fix-buffer t]))
+    (easy-menu-define
+      go-added-menu
+      (current-local-map)
+      "Go tools"
+      go-hooked-menu)
+    ;; Other
+    (setq show-trailing-whitespace t)
+					; Use goimports instead of go-fmt
+    (setq gofmt-command "goimports")
 
 
- ; Call Gofmt before saving                                                    
-  (add-hook 'before-save-hook 'gofmt-before-save)
+					; Call Gofmt before saving                                                    
+    (add-hook 'before-save-hook 'gofmt-before-save)
 
- (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command)
-           "go build -v "))
+    (if (not (string-match "go" compile-command))
+	(set (make-local-variable 'compile-command)
+	     "go build -v "))
 
-  ; Godef jump key binding                                                      
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key (kbd "M-*") 'pop-tag-mark)
-  (setq go-test-args "-v")
-  (define-key go-mode-map (kbd "C-x f") 'go-test-current-file)
-  (define-key go-mode-map (kbd "C-x t") 'go-test-current-test)
-  (define-key go-mode-map (kbd "C-x p") 'go-test-current-project)
-  (define-key go-mode-map (kbd "C-x b") 'go-test-current-benchmark)
-  (define-key go-mode-map (kbd "C-x x") 'go-run)
-  (define-key go-mode-map (kbd "C-c c") 'compile)
-  )
+					; Godef jump key binding                                                      
+    (local-set-key (kbd "M-.") 'godef-jump)
+    (local-set-key (kbd "M-*") 'pop-tag-mark)
+    (setq go-test-args "-v")
+    (define-key go-mode-map (kbd "C-x f") 'go-test-current-file)
+    (define-key go-mode-map (kbd "C-x t") 'go-test-current-test)
+    (define-key go-mode-map (kbd "C-x p") 'go-test-current-project)
+    (define-key go-mode-map (kbd "C-x b") 'go-test-current-benchmark)
+    (define-key go-mode-map (kbd "C-x x") 'go-run)
+    (define-key go-mode-map (kbd "C-c c") 'compile)
+    ))
 
-
-
-(add-hook 'go-mode-hook 'my-go-mode-hook)
-
-
-(defun auto-complete-for-go ()
-(auto-complete-mode 1))
-
-(add-hook 'go-mode-hook 'auto-complete-for-go)
-
-
- (require 'go-eldoc)
+(require 'go-eldoc)
     (add-hook 'go-mode-hook 'go-eldoc-setup)
 
 
@@ -138,8 +144,8 @@
 
 ;(require 'mouse)
 (xterm-mouse-mode t)
-(defun track-mouse (e)) 
-(setq mouse-sel-mode t)
+;(defun track-mouse (e)) 
+;(setq mouse-sel-mode t)
 
 
 ; auto save 
@@ -176,6 +182,23 @@
 (put 'upcase-region 'disabled nil)
 
 
+(require 'projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+(setq projectile-use-git-grep 1)
+(global-set-key [f5] 'projectile-find-file)
+
+
+(require 'projectile-speedbar)
+
+(setq projectitle-speedbar-open-current-buffer-in-tree nil)
+(setq sr-speedbar-right-side t)
+					;(speedbar-frame-mode)
+(speedbar-add-supported-extension ".go")
+(speedbar-add-supported-extension ".py")
+					;(global-set-key [f6] 'speedbar-toggle)
+					;(global-set-key [f6] 'sr-speedbar-toggle)
+(global-set-key [f9] 'projectile-speedbar-toggle)
 
 
 ; 平滑滚动
@@ -257,11 +280,12 @@
 	
 ;(load-theme 'zenburn t) 
 )
+;(define-key dired-mode-map [mouse-1] 'dired-find-file)
 (if (display-graphic-p)
     (load-theme 'zenburn t)
-  (load-theme 'wheatgrass t)  ;termail 下的主题
+  (load-theme 'zenburn t)  ;termail 下的主题
   (scroll-bar-mode -1) ;termail下用来启动windows 尺寸缩放
-  
+ 
   ) 
 
 
@@ -340,4 +364,18 @@ plain-tex-mode))
 ;                    :box '(:line-width 3 :color "gray"))
 ;
 ;; USEFUL: set tabbar's separator gap
-(custom-set-variables '(tabbar-separator (quote (1.5))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("947fc3e94f48cff9fc74288e5546042aa69037da7c0a98f9e794897fb50428d0" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "57f30407272152fad863e0bd96e89ba8ad28de372f9c27a0011e2d5691bfac5f" default)))
+ '(tabbar-separator (quote (1.5))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
