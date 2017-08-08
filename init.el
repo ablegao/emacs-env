@@ -160,8 +160,8 @@
   (setq elpy-rpc-backend "jedi")
   (add-hook 'python-mode-hook 'yapf-mode)
   (elpy-enable)
-  (elpy-use-ipython)
   (pyvenv-activate "~/env/python_dj")
+  (elpy-use-ipython)
   )
 
 
