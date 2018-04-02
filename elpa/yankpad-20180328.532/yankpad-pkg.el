@@ -1,0 +1,1 @@
+(define-package "yankpad" "20180328.532" "Paste snippets from an org-mode file" '((emacs "24")) :commit "e2ffe7d90bd5a88b794afa1b462f773d8b772db2" :keywords '("abbrev" "convenience") :url "http://github.com/Kungsgeten/yankpad")

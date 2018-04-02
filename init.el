@@ -34,7 +34,6 @@
 ;(set-variable 'shell-command-switch "-ic")
 
 
-
 ;; Enable mouse support  emacs version 24.5.1
 (unless window-system
   (require 'mouse)
@@ -154,12 +153,6 @@
 
 
 
-;; 自动代码提示
-
-(require 'company)
-(global-company-mode t)
-
-
 ;; golang
 (defun my-golang-mode-hook ()
   (go-eldoc-setup)
@@ -194,6 +187,7 @@
 ;;(add-hook 'java-mode-hook 'android-mode)
 
 (defun my-java-mode-hook ()
+  
   ;;(setq eclim-eclipse-dirs (expand-file-name "~/eclipse/java-oxygen/eclipse/eclipse"))
   ;;(setq eclim-executable (expand-file-name "~/.p2/pool/plugins/org.eclim_2.7.2/bin/eclim"))
   ;;(setq eclimd-defualt-workspace (expand-file-name "~/MacbookLocal/java"))
@@ -213,36 +207,24 @@
   (setq c-basic-offset 2)
   (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
   (setq meghanada-java-path "java")
-(setq meghanada-maven-path "mvn")
-
+  (setq meghanada-maven-path "mvn")
+  (local-set-key (kbd "C-c c") 'meghanada-run-task)
+  (local-set-key (kbd "M-.") 'meghanada-jump-declaration)
   )
 (add-hook 'java-mode-hook 'my-java-mode-hook)
 
 
-
-
-
-
-
-
-
 (defun my-python-mode-hook()
-  (delete 'elpy-module-yasnippet elpy-modules)
-  (setq elpy-rpc-backend "jedi")
-  (add-hook 'elpy-mode-hook 'yapf-mode)
-  (add-hook 'elpy-mode-hook 'elpy-use-ipython)
   (elpy-mode)
+  ;(delete 'elpy-module-yasnippet elpy-modules)
+  (setq elpy-rpc-backend "jedi")
+  (setq company-auto-complete t)
+  (add-hook 'elpy-mode-hook 'yapf-mode)
+ 
   )
 (add-hook 'python-mode-hook 'my-python-mode-hook)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+
+;; 自动代码提示
+(require 'company)
+(global-company-mode t)
