@@ -204,15 +204,24 @@
   
   (meghanada-mode)
   (flycheck-mode)
+  (android-mode)
+  (gradle-mode)
   (setq c-basic-offset 2)
   (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
   (setq meghanada-java-path "java")
-  (setq meghanada-maven-path "mvn")
+  (setq android-mode-avd "api23")
   (local-set-key (kbd "C-c c") 'meghanada-run-task)
+  (local-set-key (kbd "C-c i") 'android-gradle-installDebug)
+  (local-set-key (kdb "C-c u") 'android-gradle-uninstallDebug)
   (local-set-key (kbd "M-.") 'meghanada-jump-declaration)
+  (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
+ 
   )
 (add-hook 'java-mode-hook 'my-java-mode-hook)
 
+
+
+;; python
 
 (defun my-python-mode-hook()
   (elpy-mode)
@@ -220,10 +229,29 @@
   (setq elpy-rpc-backend "jedi")
   (setq company-auto-complete t)
   (add-hook 'elpy-mode-hook 'yapf-mode)
- 
+  (add-hook 'before-save-hook 'elpy-format-code)
   )
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 
+
+
+
+(setq w3m-default-display-inline-images t)
+
+
+					;重定向C-c C-c m 为w3m 预览
+(defun markdown-private-to-w3m()
+    (interactive)
+    (setq html-file-name (concat (file-name-sans-extension (buffer-file-name)) ".html"))
+    (markdown-export html-file-name)
+    (if (one-window-p) (split-window))
+    (other-window 1)
+    (w3m-find-file html-file-name))
+
+(add-hook 'markdown-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c c") 'markdown-private-to-w3m)
+				))
 
 ;; 自动代码提示
 (require 'company)
