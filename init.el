@@ -256,3 +256,12 @@
 ;; 自动代码提示
 (require 'company)
 (global-company-mode t)
+
+
+
+;; html
+
+(defun my-html-mode-hook()
+  (add-hook 'before-save-hook 'web-beautify-html-buffer)
+  )
+(add-hook 'html-mode-hook 'my-html-mode-hook)
