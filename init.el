@@ -172,7 +172,7 @@
   (define-key go-mode-map (kbd "C-x x") 'go-run) 
   (define-key go-mode-map (kbd "C-c c") 'compile)
   ;; Call Gofmt before saving
-  (add-hook 'before-save-hook 'gofmt-before-save))
+  (add-hook 'before-save-hook 'gofmt-before-save nil t))
 
 (add-hook 'go-mode-hook 'my-golang-mode-hook)
 
@@ -202,14 +202,13 @@
   (android-mode) 
   (gradle-mode) 
   (setq c-basic-offset 2) 
-  (add-hook 'before-save-hook 'meghanada-code-beautify-before-save) 
   (setq meghanada-java-path "java") 
   (setq android-mode-avd "api23") 
   (local-set-key (kbd "C-c c") 'meghanada-run-task) 
   (local-set-key (kbd "C-c i") 'android-gradle-installDebug) 
   (local-set-key (kdb "C-c u") 'android-gradle-uninstallDebug) 
   (local-set-key (kbd "M-.") 'meghanada-jump-declaration) 
-  (add-hook 'before-save-hook 'meghanada-code-beautify-before-save))
+  (add-hook 'before-save-hook 'meghanada-code-beautify-before-save nil t))
 (add-hook 'java-mode-hook 'my-java-mode-hook)
 
 
@@ -222,7 +221,7 @@
   (setq elpy-rpc-backend "jedi") 
   (setq company-auto-complete t) 
   (add-hook 'elpy-mode-hook 'yapf-mode) 
-  (add-hook 'before-save-hook 'elpy-format-code))
+  (add-hook 'before-save-hook 'elpy-format-code nil t))
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 
 
@@ -251,16 +250,30 @@
 
 
 
-;; html
-
-(defun my-html-mode-hook() 
-  (add-hook 'before-save-hook 'web-beautify-html-buffer))
-(add-hook 'html-mode-hook 'my-html-mode-hook)
-
-
-
 ;; listp
 
 (defun my-lisp-mode-hook() 
-  (add-hook 'before-save-hook 'elisp-format-buffer))
+  (add-hook 'before-save-hook 'elisp-format-buffer nil t))
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-hook)
+
+
+
+;; beautify
+;; (add-hook 'js2-mode-hook
+;; 	  (lambda ()
+;; 	    (add-hook 'before-save-hook 'web-beautify-js-buffer t t)))
+;; (add-hook 'js-mode-hook
+;; 	  (lambda ()
+;; 	    (add-hook 'before-save-hook 'web-beautify-js-buffer t t)))
+;; (add-hook 'json-mode-hook
+;; 	  (lambda ()
+;; 	    (add-hook 'before-save-hook 'web-beautify-js-buffer t t)))
+;; (add-hook 'web-mode-hook
+;; 	  (lambda ()
+;; 	    (add-hook 'before-save-hook 'web-beautify-html-buffer t t)))
+;; (add-hook 'html-mode-hook
+;; 	  (lambda ()
+;; 	    (add-hook 'before-save-hook 'web-beautify-html-buffer t t)))
+;; (add-hook 'css-mode-hook
+;; 	  (lambda ()
+;; 	    (add-hook 'before-save-hook 'web-beautify-css-buffer t t)))
