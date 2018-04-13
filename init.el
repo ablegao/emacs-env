@@ -117,13 +117,73 @@
 
 
 
+(require 'tabbar)
 
+(set-face-attribute 'tabbar-default nil 
+		    :background "gray20" 
+		    :foreground "gray20" 
+		    :box '(:line-width 1 
+				       :color "gray20" 
+				       :style nil))
+(set-face-attribute 'tabbar-unselected nil 
+		    :background "gray30" 
+		    :foreground "white" 
+		    :box '(:line-width 5 
+				       :color "gray30" 
+				       :style nil))
+(set-face-attribute 'tabbar-selected nil 
+		    :background "gray75" 
+		    :foreground "black" 
+		    :box '(:line-width 5 
+				       :color "gray75" 
+				       :style nil))
+(set-face-attribute 'tabbar-highlight nil 
+		    :background "white" 
+		    :foreground "black" 
+		    :underline nil 
+		    :box '(:line-width 5 
+				       :color "white" 
+				       :style nil))
+(set-face-attribute 'tabbar-button nil 
+		    :box '(:line-width 1 
+				       :color "gray20" 
+				       :style nil))
+(set-face-attribute 'tabbar-separator nil 
+		    :background "gray20" 
+		    :height 0.6)
+
+;; Change padding of the tabs
+;; we also need to set separator to avoid overlapping tabs by highlighted tabs
+(custom-set-variables '(tabbar-separator (quote (0.5))))
+
+
+;; Tabbar settings
+(defun tabbar-buffer-tab-label (tab) 
+  "Return a label for TAB.
+That is, a string used to represent it on the tab bar." 
+  (let ((label 
+	 (if tabbar--buffer-show-groups 
+	     (format "[%s]  " (tabbar-tab-tabset tab)) 
+	   (format " %s  " (tabbar-tab-value tab)))))
+    ;; Unless the tab bar auto scrolls to keep the selected tab
+    ;; visible, shorten the tab label to keep as many tabs as possible
+    ;; in the visible area of the tab bar.
+    (if tabbar-auto-scroll-flag 
+	label
+      (tabbar-shorten label (max 1 (/ (window-width) 
+				      (length (tabbar-view (tabbar-current-tabset)))))))))
 (tabbar-mode 1)
 (global-set-key [(meta j)] 'tabbar-forward)
 (global-set-key [(meta k)] 'tabbar-backward)
-
-
-
+(defun my-tabbar-buffer-groups () 
+  (list 
+   (cond ((string-equal "*" (substring (buffer-name) 0 1)) "emacs") 
+	 ((eq major-mode 'dired-mode) "emacs") 
+	 (t "user"))))
+(setq tabbar-buffer-groups-function 'my-tabbar-buffer-groups)
+					;(setq tabbar-buffer-groups-function
+					;      (lambda ()
+					;	(list "All")))
 ;; 主题
 
 
@@ -262,18 +322,18 @@
 ;; (add-hook 'js2-mode-hook
 ;; 	  (lambda ()
 ;; 	    (add-hook 'before-save-hook 'web-beautify-js-buffer t t)))
-;; (add-hook 'js-mode-hook
-;; 	  (lambda ()
-;; 	    (add-hook 'before-save-hook 'web-beautify-js-buffer t t)))
+(add-hook 'js-mode-hook 
+	  (lambda () 
+	    (add-hook 'before-save-hook 'web-beautify-js-buffer t t)))
 ;; (add-hook 'json-mode-hook
 ;; 	  (lambda ()
 ;; 	    (add-hook 'before-save-hook 'web-beautify-js-buffer t t)))
 ;; (add-hook 'web-mode-hook
 ;; 	  (lambda ()
 ;; 	    (add-hook 'before-save-hook 'web-beautify-html-buffer t t)))
-;; (add-hook 'html-mode-hook
-;; 	  (lambda ()
-;; 	    (add-hook 'before-save-hook 'web-beautify-html-buffer t t)))
+(add-hook 'html-mode-hook 
+	  (lambda () 
+	    (add-hook 'before-save-hook 'web-beautify-html-buffer t t)))
 ;; (add-hook 'css-mode-hook
 ;; 	  (lambda ()
 ;; 	    (add-hook 'before-save-hook 'web-beautify-css-buffer t t)))
