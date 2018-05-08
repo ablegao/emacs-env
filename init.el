@@ -279,9 +279,12 @@ That is, a string used to represent it on the tab bar."
 ;; python
 
 (defun my-python-mode-hook() 
-  (elpy-mode)
-  ;; (delete 'elpy-module-yasnippet elpy-modules)
-  (setq elpy-rpc-backend "jedi") 
+  (elpy-mode) 
+  (pyvenv-activate "~/anaconda3/envs")
+  ;;(add-to-list 'company-backends (company-mode/backend-with-yas 'elpy-company-backend))
+  ;;(delete 'elpy-module-yasnippet elpy-modules)
+  (setq elpy-rpc-backend "jedi")
+  ;;(add-to-list 'company-backends 'company-jedi)
   (setq company-auto-complete t) 
   (add-hook 'elpy-mode-hook 'yapf-mode) 
   (add-hook 'before-save-hook 'elpy-format-code nil t))
