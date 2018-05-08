@@ -56,6 +56,9 @@
 
 (put 'upcase-region 'disabled nil)
 
+(add-to-list 'load-path "~/.emacs.d/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
 
 (require 'projectile)
 (projectile-global-mode)
