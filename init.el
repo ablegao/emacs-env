@@ -96,10 +96,38 @@
   (setq ibuffer-sidebar-use-custom-font t)
   (setq ibuffer-sidebar-face `(:family "Helvetica" :height 140)))
 
+
 (global-set-key [f7] (lambda () (interactive )(multi-term)))
 (global-set-key [f8] (lambda () (interactive) (neotree-toggle) ))
 ;(global-set-key [f8] (lambda () (interactive) (neotree)))
 (global-set-key [f9] (lambda () (interactive) (helm-buffers-list)))
+
+
+
+(defun toggle-window-dedicated ()
+
+"Toggle whether the current active window is dedicated or not"
+
+(interactive)
+
+(message 
+
+ (if (let (window (get-buffer-window (current-buffer)))
+
+       (set-window-dedicated-p window 
+
+        (not (window-dedicated-p window))))
+
+    "Window '%s' is dedicated"
+
+    "Window '%s' is normal")
+
+ (current-buffer)))
+
+(global-set-key [f6] 'toggle-window-dedicated)
+
+
+
 
 
 (setq company-tooltip-align-annotations t)
@@ -150,6 +178,7 @@
 
 
 ;; Tabbar settings
+(tabbar-mode 1)
 (defun tabbar-buffer-tab-label (tab) 
   "Return a label for TAB.
 That is, a string used to represent it on the tab bar."
@@ -157,7 +186,7 @@ That is, a string used to represent it on the tab bar."
   (let ((label 
 	 (if tabbar--buffer-show-groups 
 	     (format "[%s]  " (tabbar-tab-tabset tab)) 
-	   (format " %s  " (tabbar-tab-value tab)))))
+	   (format "@%s " (tabbar-tab-value tab)))))
     ;; Unless the tab bar auto scrolls to keep the selected tab
     ;; visible, shorten the tab label to keep as many tabs as possible
     ;; in the visible area of the tab bar.
@@ -165,11 +194,11 @@ That is, a string used to represent it on the tab bar."
 	label
       (tabbar-shorten label (max 1 (/ (window-width) 
 				      (length (tabbar-view (tabbar-current-tabset)))))))))
-(tabbar-mode 1)
+
 (set-face-attribute
  'tabbar-default nil
  :box '(:line-width 2 :color "gray20" :style nil)
- :height 1.3)
+ :height 1.2)
 
 (global-set-key [(meta k)] 'tabbar-forward)
 (global-set-key [(meta j)] 'tabbar-backward)
@@ -177,7 +206,8 @@ That is, a string used to represent it on the tab bar."
   (list 
    (cond ((string-equal "*" (substring (buffer-name) 0 1)) "emacs") 
 	 ((eq major-mode 'dired-mode) "emacs") 
-	 (t "user"))))
+	 (t "user")
+	 )))
 (setq tabbar-buffer-groups-function 'my-tabbar-buffer-groups)
 					;(setq tabbar-buffer-groups-function
 					;      (lambda ()
