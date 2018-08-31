@@ -1,14 +1,20 @@
-(package-initialize)
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
-(add-to-list 'package-archives
-       '("melpa" . "http://melpa.org/packages/") t)
+;(package-initialize)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
 
+(setq toggle-truncate-lines -1)
+(setq scroll-conservatively 101)
+(setq mouse-wheel-scroll-amount '(1)) 
+(setq mouse-wheel-progressive-speed nil)
+
+;;\(setq toggle-truncate-lines nil)
+;;(add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines nil)))
 
 (unless window-system 
   (require 'mouse) 
   (xterm-mouse-mode t) 
+  (xclip-mode)
   (global-set-key [mouse-4] 
 		  (lambda () 
 		    (interactive) 
@@ -19,12 +25,12 @@
 		    (scroll-up 1))) 
   (defun track-mouse (e)) 
   (setq mouse-sel-mode t))
-
-
+(setq make-backup-files nil)
 (global-linum-mode 1)
 (add-to-list 'load-path "~/.emacs.d/yasnippet")
 (require 'yasnippet)
 (yas-global-mode 1)
+(global-unset-key (kbd "C-z"))
 
 
 (add-hook 'after-init-hook 'global-company-mode)
@@ -39,14 +45,70 @@
                            (nth 0 (split-string (buffer-string))))))))
 
 
-(global-set-key [f8] (lambda () (interactive) (neotree)(pyvenv-autoload)))
+
+;; 支持全文检索
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key [f5] 'grep-find)
+(global-set-key (kbd "C-c C-c f") 'grep-find)
+(global-set-key (kbd "C-s") 'helm-occur)
+(global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
+
+;; color 
+
+(load-theme 'solarized-dark t)
+
+;;
+(use-package dired-sidebar
+  :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
+  :ensure t
+  :commands (dired-sidebar-toggle-sidebar)
+  :config
+  (setq dired-sidebar-subtree-line-prefix " .")
+  (cond
+   ((eq system-type 'darwin)
+    (if (display-graphic-p)
+        (setq dired-sidebar-theme 'icons)
+      (setq dired-sidebar-theme 'nerd))
+    (setq dired-sidebar-face '(:family "Helvetica" :height 140)))
+   ((eq system-type 'windows-nt)
+    (setq dired-sidebar-theme 'nerd)
+    (setq dired-sidebar-face '(:family "Lucida Sans Unicode" :height 110)))
+   (:default
+    (setq dired-sidebar-theme 'nerd)
+    (setq dired-sidebar-face '(:family "Arial" :height 140))))
+
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-use-custom-font t)
+
+  (use-package all-the-icons-dired
+    ;; M-x all-the-icons-install-fonts
+    :ensure t
+    :commands (all-the-icons-dired-mode)))
+
+(use-package ibuffer-sidebar
+  :ensure nil
+  :commands (ibuffer-sidebar-toggle-sidebar)
+  :config
+  (setq ibuffer-sidebar-use-custom-font t)
+  (setq ibuffer-sidebar-face `(:family "Helvetica" :height 140)))
+
+(global-set-key [f7] (lambda () (interactive )(multi-term)))
+(global-set-key [f8] (lambda () (interactive) (neotree-toggle) ))
 ;(global-set-key [f8] (lambda () (interactive) (neotree)))
+(global-set-key [f9] (lambda () (interactive) (helm-buffers-list)))
 
 
-
+(setq company-tooltip-align-annotations t)
 (defun my-python-mode-hook()
+  (setq jedi:use-shortcuts t)
+ 
   (elpy-mode)
   (setq elpy-rpc-backend "jedi")
+  (jedi:setup)
   (add-to-list 'company-backends 'company-jedi)
   (add-hook 'elpy-mode-hook 'yapf-mode)
   (add-hook 'elpy-mode-hook
@@ -65,7 +127,7 @@
   ;; Use goimports instead of go-fmt
   (setq gofmt-command "goimports")
   (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command) "go build -v "))
+      (set (make-local-variable 'compile-command) "go build -i -v "))
 
   ;; Godef jump key binding
   (local-set-key (kbd "M-.") 'godef-jump)
@@ -87,13 +149,11 @@
 ;; we also need to set separator to avoid overlapping t
 
 
-
-
-
 ;; Tabbar settings
 (defun tabbar-buffer-tab-label (tab) 
   "Return a label for TAB.
-That is, a string used to represent it on the tab bar." 
+That is, a string used to represent it on the tab bar."
+  
   (let ((label 
 	 (if tabbar--buffer-show-groups 
 	     (format "[%s]  " (tabbar-tab-tabset tab)) 
@@ -106,8 +166,13 @@ That is, a string used to represent it on the tab bar."
       (tabbar-shorten label (max 1 (/ (window-width) 
 				      (length (tabbar-view (tabbar-current-tabset)))))))))
 (tabbar-mode 1)
-(global-set-key [(meta j)] 'tabbar-forward)
-(global-set-key [(meta k)] 'tabbar-backward)
+(set-face-attribute
+ 'tabbar-default nil
+ :box '(:line-width 2 :color "gray20" :style nil)
+ :height 1.3)
+
+(global-set-key [(meta k)] 'tabbar-forward)
+(global-set-key [(meta j)] 'tabbar-backward)
 (defun my-tabbar-buffer-groups () 
   (list 
    (cond ((string-equal "*" (substring (buffer-name) 0 1)) "emacs") 
@@ -127,9 +192,11 @@ That is, a string used to represent it on the tab bar."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d986619578e8a8dabb846e91c54090b82d937672f54ffa0ef247c0428813d602" "57f95012730e3a03ebddb7f2925861ade87f53d5bbb255398357731a7b1ac0e0" default))
+ '(package-hidden-regexps '("\\`color-theme"))
  '(package-selected-packages
-   (quote
-    (go-eldoc tabbar yasnippet-classic-snippets yasnippet-snippets company-jedi yapfify pyenv-mode-auto pyenv-mode sr-speedbar neotree helm-projectile helm-dash elpy company-lua company-go))))
+   '(subatomic-theme solarized-theme atom-one-dark-theme multi-term tabbar-ruler ztree ibuffer-projectile ibuffer-sidebar all-the-icons-dired use-package dired-sidebar yaml-mode magit gotest company-ansible company-anaconda xclip color-theme go-eldoc tabbar yasnippet-classic-snippets yasnippet-snippets company-jedi yapfify pyenv-mode-auto pyenv-mode sr-speedbar neotree helm-projectile helm-dash elpy company-lua company-go)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
