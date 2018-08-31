@@ -1,5 +1,5 @@
 # Emacs Config
-Only run emacs 24.x
+Only run emacs 25.x +
 
 
 ## Instal
