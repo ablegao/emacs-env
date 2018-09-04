@@ -59,6 +59,14 @@ apt install texlive-xetex pandoc
     C-x 3 垂直两分窗口 
     C-x 5 2 新frame
 
+## ibuffer
+
+   C-x C-b  唤出ibuffer 列表
+   o 打开指定 buffer
+   d 标记删除
+   x 执行标记
+   m 多选， 配合其他ibuffer 命令
+
 ### 矩形区块 
 用这些快捷键要先关闭cua-mode 
 

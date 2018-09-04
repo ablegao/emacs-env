@@ -3,7 +3,8 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
 
-(setq toggle-truncate-lines -1)
+;;(setq toggle-truncate-lines -1)
+(set-default 'truncate-lines t)
 (setq scroll-conservatively 101)
 (setq mouse-wheel-scroll-amount '(1)) 
 (setq mouse-wheel-progressive-speed nil)
@@ -59,8 +60,8 @@
 
 ;; color 
 
-(load-theme 'solarized-dark t)
-
+(load-theme 'solarized-light t)
+;;(load-theme 'tango t)
 ;;
 (use-package dired-sidebar
   :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
@@ -223,7 +224,7 @@ That is, a string used to represent it on the tab bar."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d986619578e8a8dabb846e91c54090b82d937672f54ffa0ef247c0428813d602" "57f95012730e3a03ebddb7f2925861ade87f53d5bbb255398357731a7b1ac0e0" default))
+   '("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d986619578e8a8dabb846e91c54090b82d937672f54ffa0ef247c0428813d602" "57f95012730e3a03ebddb7f2925861ade87f53d5bbb255398357731a7b1ac0e0" default))
  '(package-hidden-regexps '("\\`color-theme"))
  '(package-selected-packages
    '(subatomic-theme solarized-theme atom-one-dark-theme multi-term tabbar-ruler ztree ibuffer-projectile ibuffer-sidebar all-the-icons-dired use-package dired-sidebar yaml-mode magit gotest company-ansible company-anaconda xclip color-theme go-eldoc tabbar yasnippet-classic-snippets yasnippet-snippets company-jedi yapfify pyenv-mode-auto pyenv-mode sr-speedbar neotree helm-projectile helm-dash elpy company-lua company-go)))
