@@ -50,7 +50,7 @@ apt install texlive-xetex pandoc
     C-s RET C-w 不受换行、空格、标点影响 
     C-M-s 正则式向下查找
 
-### 窗口
+## 窗口
 
     C-x 0 关掉当前窗口 
     C-x 1 关掉其他窗口 
@@ -59,6 +59,11 @@ apt install texlive-xetex pandoc
     C-x 3 垂直两分窗口 
     C-x 5 2 新frame
 
+## Git 操作
+
+   Gitlab . 
+
+
 ## ibuffer
 
    C-x C-b  唤出ibuffer 列表
@@ -66,6 +71,17 @@ apt install texlive-xetex pandoc
    d 标记删除
    x 执行标记
    m 多选， 配合其他ibuffer 命令
+
+## neotree
+ n 下一行
+ p 上一行
+ g 刷新
+ C-c C-n 创建文件或者文件夹
+ C-c C-d 删除文件或者文件夹
+ C-c C-r 重命名文件或者文件夹
+ C-c C-c 切换目录
+ A  切换展示区域大小
+ 可拖动改变取余大小
 
 ### 矩形区块 
 用这些快捷键要先关闭cua-mode 

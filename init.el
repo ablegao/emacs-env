@@ -1,7 +1,7 @@
 ;(package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
+;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;(add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
 
 ;;(setq toggle-truncate-lines -1)
 (set-default 'truncate-lines t)
@@ -36,6 +36,8 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
+(windmove-default-keybindings)
+(winner-mode t)
 
 (defun pyvenv-autoload ()
   (require 'projectile)
@@ -98,10 +100,32 @@
   (setq ibuffer-sidebar-face `(:family "Helvetica" :height 140)))
 
 
+(setq ibuffer-saved-filter-groups
+      '(("Default"
+         ("Hidden"  (name . "^ "))
+         ("Helm"  (or (name . "^\\*helm\\|^\\*ac-mode-")))
+         ("Woman"  (name . "^\\*WoMan.*\\*$"))
+         ("Compile"  (name . "^*.*compil[ea].*$"))
+         ("Gtalk"  (or (name . "^\\*.*jabber") (name . "*fsm-debug*")))
+         ("ERC"  (mode . erc-mode))
+         ("Custom"  (mode . Custom-mode))
+         ("Shell"  (mode . shell-mode))
+         ("Mail" (or (mode . mew-summary-mode) (mode . mew-draft-mode)(mode . mew-message-mode)))
+         ("VC"  (or (name . "*magit-") (name . "^\\*vc")(mode . diff-mode) (mode . vc-dir-mode)))
+         ("Magit "  (name . "*magit:"))
+         ("Emacs"  (name . "^\\*.*$"))
+         ("Dired"  (mode . dired-mode))
+         ("Go"  (mode . go-mode))
+         ("Python"  (mode . python-mode))
+         ("EL"  (mode . emacs-lisp-mode))
+         )))
+
+(setq neo-window-fixed-size nil)
+
 (global-set-key [f7] (lambda () (interactive )(multi-term)))
 (global-set-key [f8] (lambda () (interactive) (neotree-toggle) ))
 ;(global-set-key [f8] (lambda () (interactive) (neotree)))
-(global-set-key [f9] (lambda () (interactive) (helm-buffers-list)))
+(global-set-key [f9] (lambda () (interactive) (ibuffer)))
 
 
 
@@ -227,7 +251,7 @@ That is, a string used to represent it on the tab bar."
    '("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d986619578e8a8dabb846e91c54090b82d937672f54ffa0ef247c0428813d602" "57f95012730e3a03ebddb7f2925861ade87f53d5bbb255398357731a7b1ac0e0" default))
  '(package-hidden-regexps '("\\`color-theme"))
  '(package-selected-packages
-   '(subatomic-theme solarized-theme atom-one-dark-theme multi-term tabbar-ruler ztree ibuffer-projectile ibuffer-sidebar all-the-icons-dired use-package dired-sidebar yaml-mode magit gotest company-ansible company-anaconda xclip color-theme go-eldoc tabbar yasnippet-classic-snippets yasnippet-snippets company-jedi yapfify pyenv-mode-auto pyenv-mode sr-speedbar neotree helm-projectile helm-dash elpy company-lua company-go)))
+   '(windresize ## eyebrowse subatomic-theme solarized-theme atom-one-dark-theme multi-term tabbar-ruler ztree ibuffer-projectile ibuffer-sidebar all-the-icons-dired use-package dired-sidebar yaml-mode magit gotest company-ansible company-anaconda xclip color-theme go-eldoc tabbar yasnippet-classic-snippets yasnippet-snippets company-jedi yapfify pyenv-mode-auto pyenv-mode sr-speedbar neotree helm-projectile helm-dash elpy company-lua company-go)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
