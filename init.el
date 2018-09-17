@@ -1,10 +1,12 @@
-;(package-initialize)
+(require 'package)
+(package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 ;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 ;(add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
-
+;(package-initialize)
 ;;(setq toggle-truncate-lines -1)
-(set-default 'truncate-lines t)
+;;(add-to-list 'load-path "~/.emacs.d/elpa")
+(set-default 'truncate-lines 0)
 (setq scroll-conservatively 101)
 (setq mouse-wheel-scroll-amount '(1)) 
 (setq mouse-wheel-progressive-speed nil)
@@ -12,25 +14,11 @@
 ;;\(setq toggle-truncate-lines nil)
 ;;(add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines nil)))
 
-(unless window-system 
-  (require 'mouse) 
-  (xterm-mouse-mode t) 
-  (xclip-mode)
-  (global-set-key [mouse-4] 
-		  (lambda () 
-		    (interactive) 
-		    (scroll-down 1))) 
-  (global-set-key [mouse-5] 
-		  (lambda () 
-		    (interactive) 
-		    (scroll-up 1))) 
-  (defun track-mouse (e)) 
-  (setq mouse-sel-mode t))
 (setq make-backup-files nil)
 (global-linum-mode 1)
-(add-to-list 'load-path "~/.emacs.d/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
+;;(add-to-list 'load-path "~/.emacs.d/yasnippet")
+;(require 'yasnippet)
+;(yas-global-mode 1)
 (global-unset-key (kbd "C-z"))
 
 
@@ -60,11 +48,24 @@
 (global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
 
+
+
+;; dash search 
+
+;;(autoload 'dash-at-point "dash-at-point"
+;;            "Search the word at point with Dash." t nil)
+;;(global-set-key (kbd "C-c d") 'dash-at-point)
+
+;;(add-to-list 'dash-at-point-mode-alist '(go-mode . "go"))
+
+
+
 ;; color 
 
-(load-theme 'solarized-light t)
+(load-theme 'solarized-dark t)
 ;;(load-theme 'tango t)
 ;;
+(require 'use-package)
 (use-package dired-sidebar
   :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
   :ensure t
@@ -121,7 +122,7 @@
          )))
 
 (setq neo-window-fixed-size nil)
-
+(global-set-key [f4] 'toggle-truncate-lines)
 (global-set-key [f7] (lambda () (interactive )(multi-term)))
 (global-set-key [f8] (lambda () (interactive) (neotree-toggle) ))
 ;(global-set-key [f8] (lambda () (interactive) (neotree)))
@@ -198,6 +199,8 @@
 (add-hook 'go-mode-hook 'my-golang-mode-hook)
 
 
+;;code/mygo/src/adexchange/dsp/rtb/source/buyerdsp/
+
 ;; Change padding of the tabs
 ;; we also need to set separator to avoid overlapping t
 
@@ -251,7 +254,7 @@ That is, a string used to represent it on the tab bar."
    '("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d986619578e8a8dabb846e91c54090b82d937672f54ffa0ef247c0428813d602" "57f95012730e3a03ebddb7f2925861ade87f53d5bbb255398357731a7b1ac0e0" default))
  '(package-hidden-regexps '("\\`color-theme"))
  '(package-selected-packages
-   '(windresize ## eyebrowse subatomic-theme solarized-theme atom-one-dark-theme multi-term tabbar-ruler ztree ibuffer-projectile ibuffer-sidebar all-the-icons-dired use-package dired-sidebar yaml-mode magit gotest company-ansible company-anaconda xclip color-theme go-eldoc tabbar yasnippet-classic-snippets yasnippet-snippets company-jedi yapfify pyenv-mode-auto pyenv-mode sr-speedbar neotree helm-projectile helm-dash elpy company-lua company-go)))
+   '(dash-at-point windresize ## eyebrowse subatomic-theme solarized-theme atom-one-dark-theme multi-term tabbar-ruler ztree ibuffer-projectile ibuffer-sidebar all-the-icons-dired use-package dired-sidebar yaml-mode magit gotest company-ansible company-anaconda xclip color-theme go-eldoc tabbar yasnippet-classic-snippets yasnippet-snippets company-jedi yapfify pyenv-mode-auto pyenv-mode sr-speedbar neotree helm-projectile helm-dash elpy company-lua company-go)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
